@@ -1,4 +1,6 @@
 const {defineConfig} = require('@vue/cli-service')
+const path = require('path');
+
 module.exports = defineConfig({
     transpileDependencies: true,
     pwa: {
@@ -15,5 +17,12 @@ module.exports = defineConfig({
             swSrc: 'src/service-worker.js',
             // ...other Workbox options...
         }
-    }
+    },
+    configureWebpack: {
+        resolve: {
+            alias: {
+                '@assets': path.resolve(__dirname, 'src/assets'),
+            },
+        },
+    },
 })

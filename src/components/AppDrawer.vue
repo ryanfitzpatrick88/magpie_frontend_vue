@@ -1,31 +1,91 @@
+<!-- https://pictogrammers.github.io/@mdi/font/2.0.46/ -->
 <template>
-  <!-- https://pictogrammers.github.io/@mdi/font/2.0.46/ -->
     <v-app>
-        <v-navigation-drawer v-model="drawer" temporary>
-            <v-list-item>
-                <v-list-item-content>
-                    <div class="d-flex flex-column align-center">
-                        <span class="text-h5">{{ appName }}</span>
-                        <v-list-item-subtitle v-if="isLoggedIn">
-                            Welcome, <span class="font-weight-bold">{{ loggedInUser }}</span>
-                        </v-list-item-subtitle>
-                        <v-list-item-subtitle v-if="isLoggedIn">
-                            Connected To: <span class="font-weight-bold">{{ connectedDatabase }}</span>
-                        </v-list-item-subtitle>
-                        <v-list-item-subtitle>Build: <span class="font-weight-bold">{{ version }}</span>
-                        </v-list-item-subtitle>
-                    </div>
-                </v-list-item-content>
-            </v-list-item>
-            <v-divider></v-divider>
-            <DrawerItem to="/" label="Home" icon="mdi-home" :show="!isLoggedIn"/>
-            <DrawerItem to="/login" label="Login" icon="mdi-login" :show="!isLoggedIn"/>
-            <DrawerItem to="/budget" label="Budget" icon="mdi-wallet" :show="isLoggedIn"/>
-            <DrawerItem to="/transactions" label="Transaction" icon="mdi-swap-horizontal" :show="isLoggedIn"/>
-            <DrawerItem to="/import-transactions" label="Import Transactions" icon="mdi-import" :show="isLoggedIn"/>
-            <DrawerItem to="/import-batches" label="Import Batches" icon="mdi-book-multiple" :show="isLoggedIn"/>
-            <DrawerItem to="/category" label="Category" icon="mdi-format-list-bulleted" :show="isLoggedIn"/>
-            <DrawerItem to="/users" label="User" icon="mdi-account" :show="isLoggedIn"/>
+        <v-navigation-drawer v-model="drawer" class="app-drawer" temporary>
+            <v-list v-model:opened="open">
+                <v-img src="magpie-icon-512.png" aspect-ratio="1" max-height="140"></v-img>
+                <v-list-item>
+                    <v-list-item-content>
+                        <div class="d-flex flex-column align-center">
+                            <span class="text-h5">{{ appName }}</span>
+                            <v-list-item-subtitle v-if="isLoggedIn">
+                                Welcome, <span class="font-weight-bold">{{ loggedInUser }}</span>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle v-if="isLoggedIn">
+                                Connected To: <span class="font-weight-bold">{{ connectedDatabase }}</span>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>Build: <span class="font-weight-bold">{{ version }}</span>
+                            </v-list-item-subtitle>
+                        </div>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item prepend-icon="mdi-home" title="Home"></v-list-item>
+
+                <v-list-group value="Account">
+                    <template v-slot:activator="{ props }">
+                        <v-list-item
+                                v-bind="props"
+                                prepend-icon="mdi-account-circle"
+                                title="Account"
+                        ></v-list-item>
+                    </template>
+
+                    <v-list-group value="Records">
+                        <template v-slot:activator="{ props }">
+                            <v-list-item
+                                    v-bind="props"
+                                    title="Records"
+                            ></v-list-item>
+                        </template>
+
+                        <v-list-item
+                                v-for="(record, i) in records"
+                                :key="i"
+                                :title="record.label"
+                                :to="record.to"
+                                :prepend-icon="record.icon"
+                                :value="record.label"
+                        ></v-list-item>
+                    </v-list-group>
+
+                    <v-list-group value="Tools">
+                        <template v-slot:activator="{ props }">
+                            <v-list-item
+                                    v-bind="props"
+                                    title="Tools"
+                            ></v-list-item>
+                        </template>
+
+                        <v-list-item
+                                v-for="(utility, i) in utilities"
+                                :key="i"
+                                :value="utility.label"
+                                :title="utility.label"
+                                :to="utility.to"
+                                :prepend-icon="utility.icon"
+                        ></v-list-item>
+                    </v-list-group>
+                </v-list-group>
+
+                <v-list-group value="Admin">
+                    <template v-slot:activator="{ props }">
+                        <v-list-item
+                                v-bind="props"
+                                prepend-icon="mdi-key"
+                                title="Admin"
+                        ></v-list-item>
+                    </template>
+
+                    <v-list-item
+                            v-for="(record, i) in admin"
+                            :key="i"
+                            :title="record.label"
+                            :to="record.to"
+                            :prepend-icon="record.icon"
+                            :value="record.label"
+                    ></v-list-item>
+                </v-list-group>
+            </v-list>
         </v-navigation-drawer>
 
         <v-app-bar color="primary" dark>
@@ -65,12 +125,8 @@
 import {ref, computed, watch} from 'vue';
 import {useStore} from 'vuex';
 import {useRouter} from 'vue-router';
-import DrawerItem from './DrawerItem.vue';
 
 export default {
-    components: {
-        DrawerItem
-    },
     setup() {
         const store = useStore();
         const router = useRouter();
@@ -98,12 +154,30 @@ export default {
             },
         ];
 
+
         const anon_options = [
             {
                 title: 'Login', action: () => {
                     router.push('/login');
                 }
             }
+        ];
+        const open = ref(['Users']);
+
+        const records = [
+            {label: 'Budget', icon: 'mdi-wallet', to: '/budget'},
+            {label: 'Transactions', icon: 'mdi-swap-horizontal', to: '/transactions'},
+            {label: 'Import Batches', icon: 'mdi-book-multiple', to: '/import-batches'},
+            {label: 'Category', icon: 'mdi-format-list-bulleted', to: '/category'},
+        ];
+
+        const utilities = [
+            {label: 'Import Transactions', icon: 'mdi-import', to: '/import-transactions'},
+            {label: 'Duplicate Transactions', icon: 'mdi-content-duplicate', to: '/duplicate-transactions'},
+        ];
+
+        const admin = [
+            {label: 'Users', icon: 'mdi-account', to: '/users'},
         ];
 
         // Watches
@@ -128,6 +202,10 @@ export default {
             loggedInUser,
             connectedDatabase,
             version,
+            records,
+            utilities,
+            admin,
+            open,
         };
     },
 };
@@ -150,6 +228,18 @@ export default {
     justify-content: center;
     text-align: center;
     margin-bottom: 1rem;
+}
+
+/deep/ .v-navigation-drawer.app-drawer {
+    width: 256px !important;
+}
+
+.v-navigation-drawer .v-list-item {
+    padding-left: 16px !important; /* adjust this value to change the padding */
+}
+
+.v-navigation-drawer .v-list-group__items {
+    padding-left: 32px !important;
 }
 </style>
 
