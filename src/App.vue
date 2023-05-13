@@ -54,7 +54,7 @@ export default {
                 store.dispatch('setVersion', response.data.version)
             } catch (e) {
                 console.log('bad validate')
-                store.dispatch('refreshToken')
+                //store.dispatch('refreshToken')
             }
         })
 

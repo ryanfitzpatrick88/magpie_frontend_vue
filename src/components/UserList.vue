@@ -1,4 +1,5 @@
 <template>
+    <the-breadcrumb :crumbs="breadcrumbs"/>
     <the-header title="User List" subtitle=""/>
     <v-container class="user-list">
         <v-data-table
@@ -21,13 +22,16 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import axiosInstance from '../axios.js'
 import TheHeader from '@/components/TheHeader.vue';
+import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
+import {useRoute} from "vue-router";
 
 export default {
     components: {
         TheHeader, // Register the component
+        TheBreadcrumb,
     },
     setup() {
         const users = ref([]);
@@ -39,6 +43,31 @@ export default {
             {title: 'Actions', align: 'end', key: 'actions'},
         ]);
 
+        // The Breadcrumb implementation
+        const route = useRoute();
+        const breadcrumbs = computed(() => {
+            let crumbs = [
+                {text: 'Home', to: {name: 'HomeView'}},
+                {text: 'User List', to: {name: 'UserList'}},
+            ];
+            if (route.name === 'UserDetail') {
+                crumbs.push({
+                    text: route.params.id,
+                    to: {name: 'UserDetail', params: {id: route.params.id}}
+                });
+            } else if (route.name === 'UserEdit') {
+                crumbs.push({
+                    text: "Edit",
+                    to: {name: 'UserDetail', params: {id: route.params.id}}
+                }, {
+                    text: route.params.id,
+                    to: {name: 'UserEdit', params: {id: route.params.id}}
+                });
+            }
+            return crumbs;
+        });
+
+        // The retrieve implementation
         const fetchUsers = async () => {
             try {
                 const response = await axiosInstance.get('/users');
@@ -48,6 +77,7 @@ export default {
             }
         }
 
+        // styling implementation
         const getColor = (is_active) => {
             return is_active ? 'green' : 'red';
         }
@@ -61,9 +91,9 @@ export default {
         return {
             users,
             headers,
+            breadcrumbs,
             getColor,
-            goToDetail,
-            TheHeader
+            goToDetail
         }
     }
 };

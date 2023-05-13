@@ -71,7 +71,7 @@ export default createStore({
                 const refreshToken = localStorage.getItem('refresh_token');
                 //const token_type = 'Bearer';
                 const response = await axiosInstance.post('/auth/refresh', {
-                    "refreshToken": refreshToken
+                    "token": refreshToken
                 });
                 localStorage.setItem('access_token', response.data.access_token);
                 localStorage.setItem('token_type', response.data.token_type);

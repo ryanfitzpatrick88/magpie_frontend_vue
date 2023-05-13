@@ -62,24 +62,8 @@
                                     </v-row>
                                 </v-list-item-content>
                             </v-list-item>
-
                         </template>
                     </v-infinite-scroll>
-                    <!--                    <v-list ref="transactionList">-->
-                    <!--                        <v-list-item v-for="transaction in transactions" :key="transaction.id">-->
-                    <!--                            <v-list-item-content>-->
-                    <!--                                &lt;!&ndash;"amount": -22.74,-->
-                    <!--                                "description": "DirPay Sand Hills Casino F Carberry Mb",-->
-                    <!--                                "date": "2023-05-03",-->
-                    <!--                                "batch_id": 1,-->
-                    <!--                                "category": null, &ndash;&gt;-->
-                    <!--                                <v-list-item-title>{{ transaction.description }}</v-list-item-title>-->
-                    <!--                                <v-list-item-subtitle>{{ transaction.amount }}</v-list-item-subtitle>-->
-                    <!--                                <v-list-item-subtitle>{{ transaction.date }}</v-list-item-subtitle>-->
-                    <!--                            </v-list-item-content>-->
-                    <!--                        </v-list-item>-->
-                    <!--                    </v-list>-->
-                    <!--                    <v-progress-circular v-if="loading" indeterminate color="primary"/>-->
                 </v-card>
             </v-col>
         </v-row>
@@ -110,6 +94,7 @@ export default {
             }
             try {
                 const response = await axiosInstance.get(`import-batches/${batchId}`)
+                console.log(response.data);
                 state.importBatch = response.data;
             } catch (error) {
                 console.error(`Failed to fetch importBatch ${batchId}:`, error);
@@ -120,12 +105,14 @@ export default {
             loading.value = true;
 
             try {
-                const response = await axiosInstance.get(`transactions`, {
+                //create a new url for transaction/batch/{id}
+                const response = await axiosInstance.get(`transactions/batch/${route.params.id}`, {
                     params: {
                         page: nextPage,
-                        batch_id: route.params.id, // adjust based on your API
                     },
                 });
+                //refactor the last statement to escape the string and put the batch id in
+
 
                 transactions.value.push(...response.data);
                 nextPage++;

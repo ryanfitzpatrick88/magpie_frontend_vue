@@ -1,5 +1,5 @@
 <template>
-    <import-batch-breadcrumb :crumbs="breadcrumbs"/>
+    <the-breadcrumb :crumbs="breadcrumbs"/>
     <the-header title="Import Batch List" subtitle=""/>
     <v-container class="import-batch-list">
         <v-data-table
@@ -19,16 +19,16 @@
 </template>
 
 <script>
-import {ref, onMounted, watch, reactive, computed} from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import axiosInstance from '../axios.js'
 import TheHeader from '@/components/TheHeader.vue';
-import ImportBatchBreadcrumb from "@/components/ImportBatchBreadcrumb.vue";
+import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import {useRoute} from 'vue-router';
 
 export default {
     components: {
         TheHeader, // Register the component
-        ImportBatchBreadcrumb,
+        TheBreadcrumb
     },
     setup() {
         const import_batches = ref([]);
@@ -41,32 +41,24 @@ export default {
             {title: 'Actions', align: 'end', key: 'actions'},
         ]);
         const route = useRoute();
-        const state = reactive({
-            breadcrumbs: [
+        const breadcrumbs = computed(() => {
+            let crumbs = [
                 {text: 'Home', to: {name: 'HomeView'}},
                 {text: 'Import Batches', to: {name: 'ImportBatchList'}},
-            ],
-        });
-        if (route.name == 'ImportBatchDetail') {
-            state.breadcrumbs.value.push({
-                text: route.params.id,
-                to: {name: 'ImportBatchDetail', params: {id: route.params.id}}
-            });
-        }
-        watch(() => route.name, (newVal, oldVal) => {
-            if (newVal === 'ImportBatchDetail') {
-                state.breadcrumbs.push({
+            ];
+            if (route.name === 'ImportBatchDetail') {
+                crumbs.push({
                     text: route.params.id,
                     to: {name: 'ImportBatchDetail', params: {id: route.params.id}}
                 });
-            } else if (oldVal === 'ImportBatchDetail') {
-                // Remove the last breadcrumb when navigating away from 'ImportBatchDetail'
-                state.breadcrumbs.pop();
             }
+            return crumbs;
         });
+
         const fetchImportBatches = async () => {
             try {
                 const response = await axiosInstance.get('/import-batches');
+                console.log(response.data);
                 import_batches.value = response.data;
             } catch (error) {
                 console.error('Failed to fetch import_batches:', error);
@@ -86,7 +78,7 @@ export default {
         return {
             import_batches,
             headers,
-            breadcrumbs: computed(() => state.breadcrumbs),
+            breadcrumbs,
             getColor,
             goToDetail,
         }
