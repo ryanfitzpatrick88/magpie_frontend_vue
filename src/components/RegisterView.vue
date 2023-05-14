@@ -18,7 +18,7 @@ export default {
     },
     setup() {
         const router = useRouter();
-        
+
         const validationError = ref('');
 
         const handleRegister = async (credentials) => {

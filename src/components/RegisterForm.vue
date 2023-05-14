@@ -48,6 +48,7 @@ export default {
                 this.$emit('register', {
                     email: this.email,
                     password: this.password,
+                    user_account: [],
                 });
             }
         },

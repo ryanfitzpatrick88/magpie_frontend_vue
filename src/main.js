@@ -44,6 +44,7 @@ axiosInstance.interceptors.request.use(config => {
 
 import TheHeader from './components/TheHeader.vue';
 import TheSearch from './components/TheSearch.vue';
+import DatePicker from 'vue3-datepicker'
 import './registerServiceWorker'
 
 const app = createApp(App);
@@ -53,6 +54,7 @@ app.component('v-data-table', VDataTable)
 app.component('v-infinite-scroll', VInfiniteScroll)
 app.component('TheHeader', TheHeader);
 app.component('TheSearch', TheSearch);
+app.component('DatePicker', DatePicker);
 app.use(router);
 app.use(store);
 app.use(vuetify);

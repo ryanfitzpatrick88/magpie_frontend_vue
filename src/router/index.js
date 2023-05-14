@@ -14,6 +14,7 @@ import TransactionDetail from '@/components/TransactionDetail.vue'
 import TransactionImport from '@/components/TransactionImport.vue'
 import ImportBatchList from "@/components/ImportBatchList.vue";
 import ImportBatchDetail from "@/components/ImportBatchDetail.vue";
+import TransactionDuplicates from "@/components/Transaction/TransactionDuplicates.vue";
 
 const routes = [
     {
@@ -86,6 +87,14 @@ const routes = [
         path: '/import-transactions',
         name: 'TransactionImport',
         component: TransactionImport,
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    {
+        path: '/duplicate-transactions',
+        name: 'TransactionDuplicates',
+        component: TransactionDuplicates,
         meta: {
             requiresAuth: true,
         }
