@@ -12,7 +12,13 @@
                     <v-text-field label="ID" v-model="user.id" readonly></v-text-field>
                     <v-text-field label="Email" v-model="user.email"></v-text-field>
                     <v-checkbox label="Is Active" v-model="user.is_active"></v-checkbox>
-                    <v-text-field label="Database" v-model="user.database"></v-text-field>
+                    <v-select
+                            :items="userAccounts"
+                            label="User Account"
+                            item-title="combinedTitle"
+                            item-value="id"
+                            v-model="user.user_account_id"
+                    ></v-select>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -24,16 +30,23 @@
 </template>
 
 <script>
-import {reactive, toRefs, onMounted, watch} from 'vue'
+import {reactive, toRefs, onMounted, watch, onBeforeUnmount} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import axiosInstance from '../axios.js'
 
 export default {
     setup() {
+        let isUnmounted = false;
+
+        onBeforeUnmount(() => {
+            isUnmounted = true;
+        });
+
         const route = useRoute();
         const router = useRouter();
         const state = reactive({
-            user: null
+            user: null,
+            userAccounts: []
         });
 
         const fetchUser = async () => {
@@ -43,9 +56,29 @@ export default {
             }
             try {
                 const response = await axiosInstance.get(`users/${userId}`)
+                console.log('User:', response.data)
                 state.user = response.data;
             } catch (error) {
                 console.error(`Failed to fetch user ${userId}:`, error);
+            }
+        }
+
+        const fetchUserAccounts = async () => {
+            try {
+                const response = await axiosInstance.get('user-accounts')
+                if (!isUnmounted) {
+                    console.log('User accounts:', state.userAccounts)
+                    var accounts_test = response.data.map(account => ({
+                        ...account,
+                        combinedTitle: `${account.alias} - ${account.database}`
+                    }));
+                    state.userAccounts = accounts_test;
+                    console.log('User accounts test:', accounts_test)
+                }
+            } catch (error) {
+                if (!isUnmounted) {
+                    console.error('Failed to fetch user accounts:', error);
+                }
             }
         }
 
@@ -56,6 +89,7 @@ export default {
             }
             try {
                 await axiosInstance.put(`users/${userId}`, state.user);
+                console.log(`Updated user ${userId}`)
                 router.push(`/users/${userId}`);
             } catch (error) {
                 console.error(`Failed to update user ${userId}:`, error);
@@ -64,12 +98,17 @@ export default {
 
         watch(route, fetchUser);
 
-        onMounted(fetchUser);
+        onMounted(async () => {
+            fetchUserAccounts();
+            fetchUser();
+        });
 
         return {
             ...toRefs(state),
             fetchUser,
+            fetchUserAccounts,
             updateUser,
+            userAccounts: toRefs(state).userAccounts,
             route,
             router
         }

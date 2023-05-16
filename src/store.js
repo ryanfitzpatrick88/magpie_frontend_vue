@@ -7,6 +7,7 @@ export default createStore({
         isLoggedIn: localStorage.getItem('isLoggedIn') === 'true' || false, // default value
         simpleLayout: localStorage.getItem('simple_layout') === 'true' || false, // default value
         darkMode: localStorage.getItem('dark_mode') === 'true' || false, // default value
+        themeName: localStorage.getItem('theme_name') || 'default',
         username: '',
         database: '',
         version: '',
@@ -38,6 +39,11 @@ export default createStore({
         SET_VERSION(state, value) {
             console.log("setVersion action dispatched: ", value);
             state.version = value;
+        },
+        SET_THEME_NAME(state, value) {
+            console.log("setVersion action dispatched: ", value);
+            state.themeName = value;
+            localStorage.setItem('theme_name', value);
         }
     },
     actions: {
@@ -65,11 +71,13 @@ export default createStore({
             console.log("SET_VERSION mutation committed: ", value);
             commit('SET_VERSION', value);
         },
+        setThemeName({commit}, value) {
+            console.log("SET_THEME_NAME mutation committed: ", value);
+            commit('SET_THEME_NAME', value);
+        },
         async refreshToken({commit}) {
             try {
-
                 const refreshToken = localStorage.getItem('refresh_token');
-                //const token_type = 'Bearer';
                 const response = await axiosInstance.post('/auth/refresh', {
                     "token": refreshToken
                 });

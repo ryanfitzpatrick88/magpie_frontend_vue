@@ -12,7 +12,7 @@
 
 <script>
 import {ref} from 'vue';
-import axiosInstance from '../axios.js';
+import axiosInstance from '../../axios.js';
 
 export default {
     setup() {

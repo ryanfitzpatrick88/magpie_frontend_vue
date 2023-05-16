@@ -1,32 +1,32 @@
 <template>
     <v-container>
-        <v-btn color="primary" @click="$router.push('/users')">Back</v-btn>
-        <router-link v-if="user && user.id" :to="`/users/edit/${user.id}`">
-            <v-btn color="secondary">Edit User</v-btn>
+        <v-btn color="primary" @click="$router.push('/user-accounts')">Back</v-btn>
+        <router-link v-if="userAccount && userAccount.id" :to="`/user-accounts/edit/${userAccount.id}`">
+            <v-btn color="secondary">Edit User Account</v-btn>
         </router-link>
-        <v-card v-if="user && user.id">
+        <v-card v-if="userAccount && userAccount.id">
             <v-card-title>
-                <span class="text-h5">{{ user.username }}</span>
+                <span class="text-h5">{{ userAccount.alias }}</span>
             </v-card-title>
             <v-card-text>
                 <v-list-item>
                     <v-list-item-content>
                         <v-list-item-title>ID</v-list-item-title>
-                        <v-list-item-subtitle>{{ user.id }}</v-list-item-subtitle>
+                        <v-list-item-subtitle>{{ userAccount.id }}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                     <v-list-item-content>
-                        <v-list-item-title>Email</v-list-item-title>
-                        <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+                        <v-list-item-title>Database</v-list-item-title>
+                        <v-list-item-subtitle>{{ userAccount.database }}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                     <v-list-item-content>
                         <v-list-item-title>Is Active</v-list-item-title>
-                        <v-list-item-subtitle>{{ user.is_active ? 'Yes' : 'No' }}</v-list-item-subtitle>
+                        <v-list-item-subtitle>{{ userAccount.is_active ? 'Yes' : 'No' }}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
             </v-card-text>
@@ -37,37 +37,36 @@
 <script>
 import {reactive, toRefs, onMounted, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
-import axiosInstance from '../axios.js'
+import axiosInstance from '../../axios.js'
 
 export default {
     setup() {
         const route = useRoute();
         const router = useRouter();
         const state = reactive({
-            user: null
+            userAccount: null
         });
 
-        const fetchUser = async () => {
-            const userId = parseInt(route.params.id);
-            if (isNaN(userId)) {
-                //console.error('Invalid user ID');
+        const fetchUserAccount = async () => {
+            const userAccountId = parseInt(route.params.id);
+            if (isNaN(userAccountId)) {
                 return;
             }
             try {
-                const response = await axiosInstance.get(`users/${userId}`)
-                state.user = response.data;
+                const response = await axiosInstance.get(`user-accounts/${userAccountId}`)
+                state.userAccount = response.data;
             } catch (error) {
-                console.error(`Failed to fetch user ${userId}:`, error);
+                console.error(`Failed to fetch user account ${userAccountId}:`, error);
             }
         }
 
-        watch(route, fetchUser);
+        watch(route, fetchUserAccount);
 
-        onMounted(fetchUser);
+        onMounted(fetchUserAccount);
 
         return {
             ...toRefs(state),
-            fetchUser,
+            fetchUserAccount,
             route,
             router
         }

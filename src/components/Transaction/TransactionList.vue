@@ -60,7 +60,7 @@
 
 <script>
 import {ref, onMounted} from 'vue'
-import axiosInstance from '../axios.js'
+import axiosInstance from '../../axios.js'
 import TheHeader from '@/components/TheHeader.vue';
 import TheSearch from '@/components/TheSearch.vue';
 

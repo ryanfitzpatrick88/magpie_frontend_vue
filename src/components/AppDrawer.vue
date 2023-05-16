@@ -1,7 +1,7 @@
 <!-- https://pictogrammers.github.io/@mdi/font/2.0.46/ -->
 <template>
     <v-app>
-        <v-navigation-drawer v-model="drawer" class="app-drawer" temporary>
+        <v-navigation-drawer v-if="isLoggedIn" v-model="drawer" class="app-drawer" temporary>
             <v-list v-model:opened="open">
                 <v-img src="magpie-icon-512.png" aspect-ratio="1" max-height="140"></v-img>
                 <v-list-item>
@@ -178,6 +178,7 @@ export default {
 
         const admin = [
             {label: 'Users', icon: 'mdi-account', to: '/users'},
+            {label: 'Accounts', icon: 'mdi-database', to: '/user-accounts'},
         ];
 
         // Watches

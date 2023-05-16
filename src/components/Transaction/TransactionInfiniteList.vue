@@ -2,14 +2,23 @@
     <div class="left-section">
         <v-infinite-scroll mode="manual" @load="load">
             <template v-for="(transaction, index) in transactions" :key="transaction.id">
-                <v-list-item :class="['px-2', index % 2 === 0 ? 'bg-grey-lighten-2' : '']">
-                    <v-list-item-content>
-                        <v-list-item-title class="headline">{{ transaction.description }}</v-list-item-title>
-                        <v-row>
-                            <v-col cols="6" class="text-start subtitle-1">{{ transaction.date }}</v-col>
-                            <v-col cols="6" class="text-end subtitle-1">{{ transaction.amount }}</v-col>
-                        </v-row>
-                    </v-list-item-content>
+                <v-list-item
+                        :class="['px-2', index % 2 === 0 ? 'bg-grey-lighten-2' : '',
+                        selectedTransactions?.includes(transaction.id) ? 'bg-blue-lighten-2' : '']">
+
+                    <v-row>
+                        <v-col cols="1">
+                            <v-checkbox :input-value="selectedTransactions?.includes(transaction.id)??true"
+                                        @change="toggleSelection(transaction.id)" label=""></v-checkbox>
+                        </v-col>
+                        <v-col cols="11">
+                            <v-list-item-title class="headline">{{ transaction.description }}</v-list-item-title>
+                            <v-row>
+                                <v-col cols="6" class="text-start subtitle-1">{{ transaction.date }}</v-col>
+                                <v-col cols="6" class="text-end subtitle-1">{{ transaction.amount }}</v-col>
+                            </v-row>
+                        </v-col>
+                    </v-row>
                 </v-list-item>
             </template>
         </v-infinite-scroll>
@@ -34,8 +43,19 @@ export default {
     },
     setup(props) {
         const transactions = ref([]);
+        const selectedTransactions = ref([]);
         const loading = ref(false);
         let nextPage = 0;
+
+        const toggleSelection = (id) => {
+            const index = selectedTransactions.value.indexOf(id);
+            if (index >= 0) {
+                selectedTransactions.value.splice(index, 1);
+            } else {
+                selectedTransactions.value.push(id);
+            }
+            console.log(selectedTransactions.value);
+        };
 
         const load = async ({done}) => {
             if (loading.value) return;
@@ -73,6 +93,7 @@ export default {
 
         return {
             transactions,
+            toggleSelection,
             onMounted,
             load,
         };

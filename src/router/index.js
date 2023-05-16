@@ -9,12 +9,15 @@ import UserList from '@/components/UserList.vue';
 import UserDetail from '@/components/UserDetail.vue';
 import UserEdit from '@/components/UserEdit.vue';
 import PreferencesView from '@/components/PreferencesView.vue';
-import TransactionList from '@/components/TransactionList.vue';
-import TransactionDetail from '@/components/TransactionDetail.vue'
-import TransactionImport from '@/components/TransactionImport.vue'
+import TransactionList from '@/components/Transaction/TransactionList.vue';
+import TransactionDetail from '@/components/Transaction/TransactionDetail.vue'
+import TransactionImport from '@/components/Transaction/TransactionImport.vue'
 import ImportBatchList from "@/components/ImportBatchList.vue";
 import ImportBatchDetail from "@/components/ImportBatchDetail.vue";
 import TransactionDuplicates from "@/components/Transaction/TransactionDuplicates.vue";
+import UserAccountList from "@/components/Account/UserAccountList.vue";
+import UserAccountDetail from "@/components/Account/UserAccountDetail.vue";
+import UserAccountEdit from "@/components/Account/UserAccountEdit.vue";
 
 const routes = [
     {
@@ -65,6 +68,26 @@ const routes = [
                 path: 'edit/:id',
                 name: 'UserEdit',
                 component: UserEdit,
+            },
+        ],
+    },
+    {
+        path: '/user-accounts',
+        name: 'UserAccountList',
+        component: UserAccountList,
+        meta: {
+            requiresAuth: true,
+        },
+        children: [
+            {
+                path: ':id',
+                name: 'UserAccountDetail',
+                component: UserAccountDetail,
+            },
+            {
+                path: 'edit/:id',
+                name: 'UserAccountEdit',
+                component: UserAccountEdit,
             },
         ],
     },

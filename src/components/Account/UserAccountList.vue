@@ -1,16 +1,21 @@
 <template>
     <the-breadcrumb :crumbs="breadcrumbs"/>
-    <the-header title="User List" subtitle=""/>
+    <the-header title="User Account List" subtitle=""/>
     <v-container class="user-list">
         <v-data-table
-                v-if="$route.name === 'UserList'"
+                v-if="$route.name === 'UserAccountList'"
                 :headers="headers"
-                :items="users"
+                :items="userAccounts"
                 class="elevation-1"
         >
             <template v-slot:item.is_active="{ item }">
                 <v-chip :color="getColor(item.raw.is_active)">
                     {{ item.raw.is_active ? 'Yes' : 'No' }}
+                </v-chip>
+            </template>
+            <template v-slot:item.is_deleted="{ item }">
+                <v-chip :color="getColor(item.raw.is_deleted)">
+                    {{ item.raw.is_deleted ? 'Yes' : 'No' }}
                 </v-chip>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -25,73 +30,71 @@
 
 <script>
 import {ref, onMounted, computed} from 'vue'
-import axiosInstance from '../axios.js'
+import axiosInstance from '../../axios.js'
 import TheHeader from '@/components/TheHeader.vue';
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import {useRoute} from "vue-router";
 
 export default {
     components: {
-        TheHeader, // Register the component
+        TheHeader,
         TheBreadcrumb,
     },
     setup() {
-        const users = ref([]);
+        const userAccounts = ref([]);
         const headers = ref([
             {title: 'ID', align: 'start', sortable: true, key: 'id'},
-            {title: 'Username', align: 'end', key: 'username'},
-            {title: 'Email', align: 'end', key: 'email'},
+            {title: 'Database', align: 'end', key: 'database'},
+            {title: 'Alias', align: 'end', key: 'alias'},
             {title: 'Is Active', align: 'end', key: 'is_active'},
+            {title: 'Is Deleted', align: 'end', key: 'is_deleted'},
             {title: 'Actions', align: 'end', key: 'actions'},
         ]);
 
-        // The Breadcrumb implementation
         const route = useRoute();
         const breadcrumbs = computed(() => {
             let crumbs = [
                 {text: 'Home', to: {name: 'HomeView'}},
-                {text: 'User List', to: {name: 'UserList'}},
+                {text: 'User Account List', to: {name: 'UserAccountList'}},
             ];
-            if (route.name === 'UserDetail') {
+            if (route.name === 'UserAccountDetail') {
                 crumbs.push({
                     text: route.params.id,
-                    to: {name: 'UserDetail', params: {id: route.params.id}}
+                    to: {name: 'UserAccountDetail', params: {id: route.params.id}}
                 });
-            } else if (route.name === 'UserEdit') {
+            } else if (route.name === 'UserAccountEdit') {
                 crumbs.push({
                     text: "Edit",
-                    to: {name: 'UserDetail', params: {id: route.params.id}}
+                    to: {name: 'UserAccountDetail', params: {id: route.params.id}}
                 }, {
                     text: route.params.id,
-                    to: {name: 'UserEdit', params: {id: route.params.id}}
+                    to: {name: 'UserAccountEdit', params: {id: route.params.id}}
                 });
             }
             return crumbs;
         });
 
-        // The retrieve implementation
-        const fetchUsers = async () => {
+        const fetchUserAccounts = async () => {
             try {
-                const response = await axiosInstance.get('/users');
-                users.value = response.data;
+                const response = await axiosInstance.get('/user-accounts');
+                userAccounts.value = response.data;
             } catch (error) {
-                console.error('Failed to fetch users:', error);
+                console.error('Failed to fetch user accounts:', error);
             }
         }
 
-        // styling implementation
         const getColor = (is_active) => {
             return is_active ? 'green' : 'red';
         }
 
         const goToDetail = (router, id) => {
-            router.push({name: 'UserDetail', params: {id}});
+            router.push({name: 'UserAccountDetail', params: {id}});
         }
 
-        onMounted(fetchUsers);
+        onMounted(fetchUserAccounts);
 
         return {
-            users,
+            userAccounts,
             headers,
             breadcrumbs,
             getColor,

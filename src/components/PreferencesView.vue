@@ -8,12 +8,14 @@
                         color="primary"
                 ></v-switch>
             </v-col>
+
             <v-col cols="12">
-                <v-switch
-                        v-model="darkModeModel"
-                        label="Dark Mode"
+                <v-select
+                        v-model="themeName"
+                        label="Theme"
                         color="primary"
-                ></v-switch>
+                        :items="items"
+                ></v-select>
             </v-col>
         </v-row>
     </v-container>
@@ -26,6 +28,9 @@ import {useStore} from 'vuex';
 export default {
     setup() {
         const store = useStore();
+        const items = ["light", "dark", "blue", "green", "red", "purple", "pink",
+            "burnt_orange", "black_cherry"
+        ];
 
         const simpleLayoutModel = computed({
             get: () => store.state.simpleLayout,
@@ -37,9 +42,16 @@ export default {
             set: value => store.dispatch('setDarkMode', value)
         });
 
+        const themeName = computed({
+            get: () => store.state.themeName,
+            set: value => store.dispatch('setThemeName', value)
+        });
+
         return {
             simpleLayoutModel,
-            darkModeModel
+            darkModeModel,
+            themeName,
+            items
         };
     }
 };
