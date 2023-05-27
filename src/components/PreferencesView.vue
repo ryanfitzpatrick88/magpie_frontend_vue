@@ -28,23 +28,31 @@ import {useStore} from 'vuex';
 export default {
     setup() {
         const store = useStore();
-        const items = ["light", "dark", "blue", "green", "red", "purple", "pink",
+        const items = ["light", "dark", "blue", "green", "red", "purple", "pink", "millennial_pink",
             "burnt_orange", "black_cherry"
         ];
 
         const simpleLayoutModel = computed({
-            get: () => store.state.simpleLayout,
-            set: value => store.dispatch('setSimpleLayout', value)
+            get: () => store.state.store.simpleLayout,
+            set: value => {
+                store.dispatch('store/setSimpleLayout', value)
+                store.dispatch('notifications/addNotification', 'Layout changed to ' + (!value ? 'simple' : 'material') + '');
+                //store.dispatch('messages/addMessage', 'Layout changed to ' + (!value ? 'simple' : 'material') + '');
+            }
         });
 
         const darkModeModel = computed({
-            get: () => store.state.darkMode,
-            set: value => store.dispatch('setDarkMode', value)
+            get: () => store.state.store.darkMode,
+            set: value => store.dispatch('store/setDarkMode', value)
         });
 
         const themeName = computed({
-            get: () => store.state.themeName,
-            set: value => store.dispatch('setThemeName', value)
+            get: () => store.state.store.themeName,
+            set: value => {
+                store.dispatch('store/setThemeName', value)
+                store.dispatch('notifications/addNotification', 'Theme changed to ' + value + '');
+                //store.dispatch('messages/addMessage', 'Theme changed to ' + value + '');
+            }
         });
 
         return {

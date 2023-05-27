@@ -2,22 +2,22 @@ import {createRouter, createWebHistory} from 'vue-router';
 
 // Import your components here
 import HomeView from '@/components/HomeView.vue';
-import LoginView from '@/components/LoginView.vue';
+import LoginView from '@/components/Auth/LoginView.vue';
 import ProtectedView from '@/components/ProtectedView.vue';
-import RegisterView from '@/components/RegisterView.vue';
-import UserList from '@/components/UserList.vue';
-import UserDetail from '@/components/UserDetail.vue';
-import UserEdit from '@/components/UserEdit.vue';
+import RegisterView from '@/components/Auth/RegisterView.vue';
+import UserList from '@/components/Admin/UserList.vue';
+import UserDetail from '@/components/Admin/UserDetail.vue';
+import UserEdit from '@/components/Admin/UserEdit.vue';
 import PreferencesView from '@/components/PreferencesView.vue';
 import TransactionList from '@/components/Transaction/TransactionList.vue';
 import TransactionDetail from '@/components/Transaction/TransactionDetail.vue'
 import TransactionImport from '@/components/Transaction/TransactionImport.vue'
 import ImportBatchList from "@/components/ImportBatchList.vue";
 import ImportBatchDetail from "@/components/ImportBatchDetail.vue";
-import TransactionDuplicates from "@/components/Transaction/TransactionDuplicates.vue";
-import UserAccountList from "@/components/Account/UserAccountList.vue";
-import UserAccountDetail from "@/components/Account/UserAccountDetail.vue";
-import UserAccountEdit from "@/components/Account/UserAccountEdit.vue";
+import TransactionDuplicates from "@/components/Tools/TransactionDuplicates.vue";
+import UserAccountList from "@/components/Admin/UserAccountList.vue";
+import UserAccountDetail from "@/components/Admin/UserAccountDetail.vue";
+import UserAccountEdit from "@/components/Admin/UserAccountEdit.vue";
 
 const routes = [
     {

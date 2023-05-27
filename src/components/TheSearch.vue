@@ -21,7 +21,7 @@
             </v-col>
             <!-- make the filter button the same height as the search  -->
             <v-col cols="2">
-                <v-btn color="primary" dark @click="dialog = true">
+                <v-btn color="primary" @click="dialog = true">
                     <v-icon>mdi-filter</v-icon>
                 </v-btn>
                 <v-dialog v-model="dialog" max-width="500px">

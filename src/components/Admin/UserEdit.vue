@@ -32,7 +32,7 @@
 <script>
 import {reactive, toRefs, onMounted, watch, onBeforeUnmount} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
-import axiosInstance from '../axios.js'
+import axiosInstance from '../../axios.js'
 
 export default {
     setup() {

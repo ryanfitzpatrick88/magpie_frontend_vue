@@ -13,7 +13,7 @@ export default {
         handleLogout() {
             localStorage.removeItem('access_token');
             localStorage.removeItem('token_type');
-            this.$store.dispatch('setLoggedIn', false);
+            this.$store.dispatch('store/setLoggedIn', false);
             this.$router.push('/login');
         },
     },

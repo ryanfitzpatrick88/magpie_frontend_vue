@@ -1,13 +1,13 @@
-import {createStore} from 'vuex';
-import axiosInstance from './axios.js';
+import axiosInstance from '../axios.js';
 //import axios from 'axios';
 
-export default createStore({
+export default {
+    namespaced: true,
     state: {
         isLoggedIn: localStorage.getItem('isLoggedIn') === 'true' || false, // default value
         simpleLayout: localStorage.getItem('simple_layout') === 'true' || false, // default value
         darkMode: localStorage.getItem('dark_mode') === 'true' || false, // default value
-        themeName: localStorage.getItem('theme_name') || 'default',
+        themeName: localStorage.getItem('theme_name') || 'light',
         username: '',
         database: '',
         version: '',
@@ -90,4 +90,4 @@ export default createStore({
             }
         }
     }
-});
+};

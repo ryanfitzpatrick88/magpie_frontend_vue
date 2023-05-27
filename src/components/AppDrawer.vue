@@ -88,7 +88,7 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-app-bar color="primary" dark>
+        <v-app-bar color="primary">
             <v-btn icon @click="drawer = !drawer">
                 <v-icon>mdi-menu</v-icon>
             </v-btn>
@@ -131,11 +131,11 @@ export default {
         const store = useStore();
         const router = useRouter();
         const appName = ref('Magpie');
-        const loggedInUser = ref(store.state.username); // Populate this with the logged in user's name
-        const connectedDatabase = ref(store.state.database); // Populate this with the connected database name
-        const version = ref(store.state.version);
+        const loggedInUser = ref(store.state.store.username); // Populate this with the logged in user's name
+        const connectedDatabase = ref(store.state.store.database); // Populate this with the connected database name
+        const version = ref(store.state.store.version);
 
-        const isLoggedIn = computed(() => store.state.isLoggedIn);
+        const isLoggedIn = computed(() => store.state.store.isLoggedIn);
         const drawer = ref(false); // Initialize drawer state
         const options = [
             {
@@ -148,7 +148,7 @@ export default {
                     localStorage.removeItem('access_token');
                     localStorage.removeItem('token_type');
                     localStorage.removeItem('refresh_token');
-                    store.dispatch('setLoggedIn', false);
+                    store.dispatch('store/setLoggedIn', false);
                     router.push('/login');
                 }
             },
@@ -182,15 +182,15 @@ export default {
         ];
 
         // Watches
-        watch(() => store.state.username, newVal => {
+        watch(() => store.state.store.username, newVal => {
             loggedInUser.value = newVal;
         });
 
-        watch(() => store.state.database, newVal => {
+        watch(() => store.state.store.database, newVal => {
             connectedDatabase.value = newVal;
         });
 
-        watch(() => store.state.version, newVal => {
+        watch(() => store.state.store.version, newVal => {
             version.value = newVal;
         });
 

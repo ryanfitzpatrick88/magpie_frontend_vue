@@ -1,5 +1,7 @@
 <template>
     <v-app>
+        <TheMessage/>
+        <TheNotification/>
         <NavBar v-if="!simpleLayout"/>
         <AppDrawer v-else/>
     </v-app>
@@ -14,10 +16,14 @@ import NavBar from './components/NavBar.vue';
 import AppDrawer from './components/AppDrawer.vue';
 import axiosInstance from './axios.js'
 import initializeInterceptor from './axios.js'
+import TheMessage from "./components/TheMessage.vue";
+import TheNotification from "@/components/TheNotification.vue";
 
 export default {
     name: 'App',
     components: {
+        TheNotification,
+        TheMessage,
         NavBar,
         AppDrawer
     },
@@ -28,15 +34,18 @@ export default {
 
         initializeInterceptor(store, router);
 
-        const simpleLayout = computed(() => store.state.simpleLayout)
+        const simpleLayout = computed(() => store.state.store.simpleLayout)
 
         watch(
-            () => store.state.themeName,
+            () => store.state.store.themeName,
             (newVal) => {
-                theme.global.name.value = newVal
+                if (newVal) {
+                    console.log(newVal + ' ' + theme.global.name.value)
+                    theme.global.name.value = newVal
+                }
             },
             {immediate: true}
-        )
+        );
 
         onMounted(async () => {
             const accessToken = localStorage.getItem('access_token')
@@ -49,10 +58,10 @@ export default {
                     }
                 })
                 console.log(response.data)
-                store.dispatch('setLoggedIn', true)
-                store.dispatch('setUsername', response.data.username)
-                store.dispatch('setDatabase', response.data.alias)
-                store.dispatch('setVersion', response.data.version)
+                await store.dispatch('store/setLoggedIn', true)
+                await store.dispatch('store/setUsername', response.data.username)
+                await store.dispatch('store/setDatabase', response.data.alias)
+                await store.dispatch('store/setVersion', response.data.version)
             } catch (e) {
                 console.log('bad validate')
                 // store.dispatch('setLoggedIn', false);

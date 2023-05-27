@@ -25,7 +25,7 @@
 
 <script>
 import {ref, onMounted, computed} from 'vue'
-import axiosInstance from '../axios.js'
+import axiosInstance from '../../axios.js'
 import TheHeader from '@/components/TheHeader.vue';
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import {useRoute} from "vue-router";

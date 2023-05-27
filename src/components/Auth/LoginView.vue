@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/LoginForm.vue';
+import LoginForm from '@/components/Auth/LoginForm.vue';
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 
@@ -18,9 +18,9 @@ export default {
     setup() {
         const router = useRouter()
         const store = useStore()
-        
+
         const handleLogin = () => {
-            store.dispatch('setLoggedIn', true);
+            store.dispatch('store/setLoggedIn', true);
             router.push('/protected_route');
         }
 
