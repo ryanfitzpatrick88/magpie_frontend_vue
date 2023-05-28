@@ -1,17 +1,26 @@
 import axios from 'axios';
-//import useStore from '@/store';
-//import {useRouter} from 'vue-router';
 
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:8000/api/v1/',
     timeout: 5000, // Timeout after 5 seconds
 });
 
+axiosInstance.interceptors.request.use(config => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 axiosInstance.interceptors.request.use(
     (config) => {
+        console.log('intercepting request' + config.url)
+
         const accessToken = localStorage.getItem('access_token');
         const refreshToken = localStorage.getItem('refresh_token');
+        if (!config.url)
+            return config
 
         if (config.url.endsWith('auth/refresh')) {
             if (refreshToken) {
@@ -35,7 +44,9 @@ axiosInstance.interceptors.response.use(
         return response;
     },
     async (error) => {
+        console.log('error: ' + error);
         const originalRequest = error.config;
+
         //const store = useStore();
         originalRequest._retry = false;
         if (error.response.status === 401 && !originalRequest._retry) {

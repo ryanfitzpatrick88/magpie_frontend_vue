@@ -72,7 +72,7 @@ export default {
         // The retrieve implementation
         const fetchUsers = async () => {
             try {
-                const response = await axiosInstance.get('/users');
+                const response = await axiosInstance.get('users');
                 users.value = response.data;
             } catch (error) {
                 console.error('Failed to fetch users:', error);

@@ -48,13 +48,7 @@ const axiosInstance = axios.create({
 });
 
 // Add the Authorization header if an access token is available
-axiosInstance.interceptors.request.use(config => {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
+
 
 import TheHeader from './components/TheHeader.vue';
 import TheSearch from './components/TheSearch.vue';

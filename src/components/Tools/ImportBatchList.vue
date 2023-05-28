@@ -20,7 +20,7 @@
 
 <script>
 import {ref, onMounted, computed} from 'vue'
-import axiosInstance from '../axios.js'
+import axiosInstance from '../../axios.js'
 import TheHeader from '@/components/TheHeader.vue';
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import {useRoute} from 'vue-router';
@@ -57,7 +57,7 @@ export default {
 
         const fetchImportBatches = async () => {
             try {
-                const response = await axiosInstance.get('/import-batches');
+                const response = await axiosInstance.get('import-batches');
                 console.log(response.data);
                 import_batches.value = response.data;
             } catch (error) {

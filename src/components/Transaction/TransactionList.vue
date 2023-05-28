@@ -81,7 +81,7 @@ export default {
 
         const fetchTransactions = async () => {
             try {
-                const response = await axiosInstance.get('/transactions');
+                const response = await axiosInstance.get('transactions');
                 transactions.value = response.data;
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);

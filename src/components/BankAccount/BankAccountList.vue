@@ -1,21 +1,18 @@
 <template>
     <the-breadcrumb :crumbs="breadcrumbs"/>
-    <the-header title="User Account List" subtitle=""/>
-    <v-container class="user-list">
+    <the-header title="Bank Account List" subtitle="" :actions="[
+        {icon: 'mdi-plus', onClick: () => goToCreate($router)},
+    ]"/>
+    <v-container class="bank-account-list">
         <v-data-table
-                v-if="$route.name === 'UserAccountList'"
+                v-if="$route.name === 'BankAccountList'"
                 :headers="headers"
-                :items="userAccounts"
+                :items="bankAccounts"
                 class="elevation-1"
         >
-            <template v-slot:item.is_active="{ item }">
-                <v-chip :color="getColor(item.raw.is_active)">
-                    {{ item.raw.is_active ? 'Yes' : 'No' }}
-                </v-chip>
-            </template>
-            <template v-slot:item.is_deleted="{ item }">
-                <v-chip :color="getColor(item.raw.is_deleted)">
-                    {{ item.raw.is_deleted ? 'Yes' : 'No' }}
+            <template v-slot:item.currency="{ item }">
+                <v-chip :color="getColor(item.raw.currency)">
+                    {{ item.raw.currency }}
                 </v-chip>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -41,13 +38,13 @@ export default {
         TheBreadcrumb,
     },
     setup() {
-        const userAccounts = ref([]);
+        const bankAccounts = ref([]);
         const headers = ref([
             {title: 'ID', align: 'start', sortable: true, key: 'id'},
-            {title: 'Database', align: 'end', key: 'database'},
-            {title: 'Alias', align: 'end', key: 'alias'},
-            {title: 'Is Active', align: 'end', key: 'is_active'},
-            {title: 'Is Deleted', align: 'end', key: 'is_deleted'},
+            {title: 'Name', align: 'end', key: 'account_name'},
+            {title: 'Type', align: 'end', key: 'account_type'},
+            {title: 'Bank', align: 'end', key: 'bank_name'},
+            {title: 'Currency', align: 'end', key: 'currency'},
             {title: 'Actions', align: 'end', key: 'actions'},
         ]);
 
@@ -55,32 +52,36 @@ export default {
         const breadcrumbs = computed(() => {
             let crumbs = [
                 {text: 'Home', to: {name: 'HomeView'}},
-                {text: 'User Account List', to: {name: 'UserAccountList'}},
+                {text: 'Bank Account List', to: {name: 'BankAccountList'}},
             ];
-            if (route.name === 'UserAccountDetail') {
+            if (route.name === 'BankAccountDetail') {
                 crumbs.push({
                     text: route.params.id,
-                    to: {name: 'UserAccountDetail', params: {id: route.params.id}}
+                    to: {name: 'BankAccountDetail', params: {id: route.params.id}}
                 });
-            } else if (route.name === 'UserAccountEdit') {
+            } else if (route.name === 'BankAccountEdit') {
                 crumbs.push({
                     text: "Edit",
-                    to: {name: 'UserAccountDetail', params: {id: route.params.id}}
+                    to: {name: 'BankAccountDetail', params: {id: route.params.id}}
                 }, {
                     text: route.params.id,
-                    to: {name: 'UserAccountEdit', params: {id: route.params.id}}
+                    to: {name: 'BankAccountEdit', params: {id: route.params.id}}
                 });
             }
             return crumbs;
         });
 
-        const fetchUserAccounts = async () => {
+        const fetchBankAccounts = async () => {
             try {
-                const response = await axiosInstance.get('user-accounts');
-                userAccounts.value = response.data;
+                const response = await axiosInstance.get('bank-accounts');
+                bankAccounts.value = response.data;
             } catch (error) {
-                console.error('Failed to fetch user accounts:', error);
+                console.error('Failed to fetch bank accounts:', error);
             }
+        }
+
+        const goToCreate = (router) => {
+            router.push({name: 'BankAccountEdit', params: {id: 0}});
         }
 
         const getColor = (is_active) => {
@@ -88,17 +89,18 @@ export default {
         }
 
         const goToDetail = (router, id) => {
-            router.push({name: 'UserAccountDetail', params: {id}});
+            router.push({name: 'BankAccountDetail', params: {id}});
         }
 
-        onMounted(fetchUserAccounts);
+        onMounted(fetchBankAccounts);
 
         return {
-            userAccounts,
+            bankAccounts,
             headers,
             breadcrumbs,
             getColor,
-            goToDetail
+            goToDetail,
+            goToCreate
         }
     }
 };

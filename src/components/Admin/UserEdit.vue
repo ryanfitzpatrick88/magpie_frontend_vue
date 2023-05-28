@@ -46,7 +46,7 @@ export default {
         const router = useRouter();
         const state = reactive({
             user: null,
-            userAccounts: []
+            userAccounts: [],
         });
 
         const fetchUser = async () => {

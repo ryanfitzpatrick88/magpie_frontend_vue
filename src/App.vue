@@ -9,13 +9,13 @@
 
 <script>
 import {computed, watch, onMounted} from 'vue'
-import {useRouter} from "vue-router";
+// {useRouter} from "vue-router";
 import {useStore} from 'vuex'
 import {useTheme} from 'vuetify'
 import NavBar from './components/NavBar.vue';
 import AppDrawer from './components/AppDrawer.vue';
 import axiosInstance from './axios.js'
-import initializeInterceptor from './axios.js'
+//import initializeInterceptor from './axios.js'
 import TheMessage from "./components/TheMessage.vue";
 import TheNotification from "@/components/TheNotification.vue";
 
@@ -29,10 +29,10 @@ export default {
     },
     setup() {
         const store = useStore()
-        const router = useRouter()
+        //const router = useRouter()
         const theme = useTheme()
 
-        initializeInterceptor(store, router);
+        //initializeInterceptor(store, router);
 
         const simpleLayout = computed(() => store.state.store.simpleLayout)
 

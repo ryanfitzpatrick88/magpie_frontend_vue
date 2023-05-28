@@ -12,12 +12,15 @@ import PreferencesView from '@/components/PreferencesView.vue';
 import TransactionList from '@/components/Transaction/TransactionList.vue';
 import TransactionDetail from '@/components/Transaction/TransactionDetail.vue'
 import TransactionImport from '@/components/Transaction/TransactionImport.vue'
-import ImportBatchList from "@/components/ImportBatchList.vue";
-import ImportBatchDetail from "@/components/ImportBatchDetail.vue";
+import ImportBatchList from "@/components/Tools/ImportBatchList.vue";
+import ImportBatchDetail from "@/components/Tools/ImportBatchDetail.vue";
 import TransactionDuplicates from "@/components/Tools/TransactionDuplicates.vue";
 import UserAccountList from "@/components/Admin/UserAccountList.vue";
 import UserAccountDetail from "@/components/Admin/UserAccountDetail.vue";
 import UserAccountEdit from "@/components/Admin/UserAccountEdit.vue";
+import BankAccountList from "@/components/BankAccount/BankAccountList.vue";
+import BankAccountDetail from "@/components/BankAccount/BankAccountDetail.vue";
+import BankAccountEdit from "@/components/BankAccount/BankAccountEdit.vue";
 
 const routes = [
     {
@@ -88,6 +91,26 @@ const routes = [
                 path: 'edit/:id',
                 name: 'UserAccountEdit',
                 component: UserAccountEdit,
+            },
+        ],
+    },
+    {
+        path: '/bank-accounts',
+        name: 'BankAccountList',
+        component: BankAccountList,
+        meta: {
+            requiresAuth: true,
+        },
+        children: [
+            {
+                path: ':id',
+                name: 'BankAccountDetail',
+                component: BankAccountDetail,
+            },
+            {
+                path: 'edit/:id',
+                name: 'BankAccountEdit',
+                component: BankAccountEdit,
             },
         ],
     },

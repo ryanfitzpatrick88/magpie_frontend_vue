@@ -1,9 +1,9 @@
 <!-- https://pictogrammers.github.io/@mdi/font/2.0.46/ -->
 <template>
-    <v-app>
+    <v-card>
         <v-navigation-drawer v-if="isLoggedIn" v-model="drawer" class="app-drawer" temporary>
             <v-list v-model:opened="open">
-                <v-img src="magpie-icon-512.png" aspect-ratio="1" max-height="140"></v-img>
+                <v-img src="/magpie-icon-512.png" eager="eager" aspect-ratio="1" max-height="140"></v-img>
                 <v-list-item>
                     <v-list-item-content>
                         <div class="d-flex flex-column align-center">
@@ -118,7 +118,7 @@
                 <router-view/>
             </v-container>
         </v-main>
-    </v-app>
+    </v-card>
 </template>
 
 <script>
@@ -169,6 +169,7 @@ export default {
             {label: 'Transactions', icon: 'mdi-swap-horizontal', to: '/transactions'},
             {label: 'Import Batches', icon: 'mdi-book-multiple', to: '/import-batches'},
             {label: 'Category', icon: 'mdi-format-list-bulleted', to: '/category'},
+            {label: 'Bank Accounts', icon: 'mdi-bank', to: '/bank-accounts'},
         ];
 
         const utilities = [

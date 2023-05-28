@@ -73,7 +73,7 @@
 <script>
 import {onMounted, reactive, ref, watch, toRefs} from 'vue';
 import {useRoute} from 'vue-router';
-import axiosInstance from '../axios.js';
+import axiosInstance from '../../axios.js';
 
 export default {
     setup() {
