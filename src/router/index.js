@@ -1,26 +1,26 @@
 import {createRouter, createWebHistory} from 'vue-router';
 
 // Import your components here
-import HomeView from '@/components/HomeView.vue';
-import LoginView from '@/components/Auth/LoginView.vue';
-import ProtectedView from '@/components/ProtectedView.vue';
-import RegisterView from '@/components/Auth/RegisterView.vue';
-import UserList from '@/components/Admin/UserList.vue';
-import UserDetail from '@/components/Admin/UserDetail.vue';
-import UserEdit from '@/components/Admin/UserEdit.vue';
-import PreferencesView from '@/components/PreferencesView.vue';
-import TransactionList from '@/components/Transaction/TransactionList.vue';
-import TransactionDetail from '@/components/Transaction/TransactionDetail.vue'
-import TransactionImport from '@/components/Transaction/TransactionImport.vue'
-import ImportBatchList from "@/components/Tools/ImportBatchList.vue";
-import ImportBatchDetail from "@/components/Tools/ImportBatchDetail.vue";
-import TransactionDuplicates from "@/components/Tools/TransactionDuplicates.vue";
-import UserAccountList from "@/components/Admin/UserAccountList.vue";
-import UserAccountDetail from "@/components/Admin/UserAccountDetail.vue";
-import UserAccountEdit from "@/components/Admin/UserAccountEdit.vue";
-import BankAccountList from "@/components/BankAccount/BankAccountList.vue";
-import BankAccountDetail from "@/components/BankAccount/BankAccountDetail.vue";
-import BankAccountEdit from "@/components/BankAccount/BankAccountEdit.vue";
+import HomeView from '../components/HomeView.vue';
+import LoginView from '../components/Auth/LoginView.vue';
+import ProtectedView from '../components/ProtectedView.vue';
+import RegisterView from '../components/Auth/RegisterView.vue';
+import UserList from '../components/Admin/UserList.vue';
+import UserDetail from '../components/Admin/UserDetail.vue';
+import UserEdit from '../components/Admin/UserEdit.vue';
+import PreferencesView from '../components/PreferencesView.vue';
+import TransactionList from '../components/Transaction/TransactionList.vue';
+import TransactionDetail from '../components/Transaction/TransactionDetail.vue'
+import TransactionImport from '../components/Transaction/TransactionImport.vue'
+import ImportBatchList from "../components/Tools/ImportBatchList.vue";
+import ImportBatchDetail from "../components/Tools/ImportBatchDetail.vue";
+import TransactionDuplicates from "../components/Tools/TransactionDuplicates.vue";
+import UserAccountList from "../components/Admin/UserAccountList.vue";
+import UserAccountDetail from "../components/Admin/UserAccountDetail.vue";
+import UserAccountEdit from "../components/Admin/UserAccountEdit.vue";
+import BankAccountList from "../components/BankAccount/BankAccountList.vue";
+import BankAccountDetail from "../components/BankAccount/BankAccountDetail.vue";
+import BankAccountEdit from "../components/BankAccount/BankAccountEdit.vue";
 
 const routes = [
     {
@@ -163,7 +163,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(),
     routes,
 });
 

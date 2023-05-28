@@ -17,7 +17,7 @@ import AppDrawer from './components/AppDrawer.vue';
 import axiosInstance from './axios.js'
 //import initializeInterceptor from './axios.js'
 import TheMessage from "./components/TheMessage.vue";
-import TheNotification from "@/components/TheNotification.vue";
+import TheNotification from "./components/TheNotification.vue";
 
 export default {
     name: 'App',

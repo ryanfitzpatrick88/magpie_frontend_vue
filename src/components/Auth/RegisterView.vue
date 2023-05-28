@@ -7,7 +7,7 @@
 
 <script>
 import {ref} from 'vue';
-import RegisterForm from '@/components/Auth/RegisterForm.vue';
+import RegisterForm from '../../components/Auth/RegisterForm.vue';
 import axiosInstance from '../../axios.js'; // assuming axiosInstance is exported from this path
 import {useRouter} from 'vue-router'
 

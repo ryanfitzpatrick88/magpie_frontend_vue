@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/Auth/LoginForm.vue';
+import LoginForm from '../../components/Auth/LoginForm.vue';
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 

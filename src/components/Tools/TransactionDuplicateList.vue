@@ -72,7 +72,7 @@
 
 <script>
 import {ref} from 'vue';
-import axiosInstance from '@/axios';
+import axiosInstance from '../../axios';
 import {format} from 'date-fns';
 
 export default {
