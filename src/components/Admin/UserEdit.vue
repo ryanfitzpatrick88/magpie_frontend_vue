@@ -18,6 +18,7 @@
                             item-title="combinedTitle"
                             item-value="id"
                             v-model="user.user_account_id"
+                            eager="eager"
                     ></v-select>
                 </v-card-text>
                 <v-card-actions>
@@ -30,18 +31,12 @@
 </template>
 
 <script>
-import {reactive, toRefs, onMounted, watch, onBeforeUnmount} from 'vue'
+import {reactive, toRefs, onMounted, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import axiosInstance from '../../axios.js'
 
 export default {
     setup() {
-        let isUnmounted = false;
-
-        onBeforeUnmount(() => {
-            isUnmounted = true;
-        });
-
         const route = useRoute();
         const router = useRouter();
         const state = reactive({
@@ -66,19 +61,15 @@ export default {
         const fetchUserAccounts = async () => {
             try {
                 const response = await axiosInstance.get('user-accounts')
-                if (!isUnmounted) {
-                    console.log('User accounts:', state.userAccounts)
-                    var accounts_test = response.data.map(account => ({
-                        ...account,
-                        combinedTitle: `${account.alias} - ${account.database}`
-                    }));
-                    state.userAccounts = accounts_test;
-                    console.log('User accounts test:', accounts_test)
-                }
+                console.log('User accounts:', state.userAccounts)
+                var accounts_test = response.data.map(account => ({
+                    ...account,
+                    combinedTitle: `${account.alias} - ${account.database}`
+                }));
+                state.userAccounts = accounts_test;
+                console.log('User accounts test:', accounts_test)
             } catch (error) {
-                if (!isUnmounted) {
-                    console.error('Failed to fetch user accounts:', error);
-                }
+                console.error('Failed to fetch user accounts:', error);
             }
         }
 
@@ -99,8 +90,8 @@ export default {
         watch(route, fetchUser);
 
         onMounted(async () => {
-            fetchUserAccounts();
-            fetchUser();
+            await fetchUserAccounts();
+            await fetchUser();
         });
 
         return {
@@ -108,7 +99,6 @@ export default {
             fetchUser,
             fetchUserAccounts,
             updateUser,
-            userAccounts: toRefs(state).userAccounts,
             route,
             router
         }

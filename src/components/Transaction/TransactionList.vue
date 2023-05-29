@@ -2,6 +2,7 @@
     <v-container class="transaction-list">
         <the-header title="Transaction List" subtitle=""/>
         <the-search
+                v-if="$route.name === 'TransactionList'"
                 :items="transactions"
                 :properties="[ 'description', 'amount', 'date']"
                 :filters="[

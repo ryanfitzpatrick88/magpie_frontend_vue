@@ -168,8 +168,9 @@ export default {
             {label: 'Budget', icon: 'mdi-wallet', to: '/budget'},
             {label: 'Transactions', icon: 'mdi-swap-horizontal', to: '/transactions'},
             {label: 'Import Batches', icon: 'mdi-book-multiple', to: '/import-batches'},
-            {label: 'Category', icon: 'mdi-format-list-bulleted', to: '/category'},
+            {label: 'Category', icon: 'mdi-format-list-bulleted', to: '/categories'},
             {label: 'Bank Accounts', icon: 'mdi-bank', to: '/bank-accounts'},
+            {label: 'Merchants', icon: 'mdi-store', to: '/merchants'},
         ];
 
         const utilities = [
