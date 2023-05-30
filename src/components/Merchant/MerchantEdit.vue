@@ -42,11 +42,13 @@
 import {reactive, toRefs, onMounted, watch, computed, ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import axiosInstance from '../../axios.js'
+import {useStore} from 'vuex';
 
 export default {
     setup() {
         const route = useRoute()
         const router = useRouter()
+        const store = useStore();
         const state = reactive({
             merchant: null,
             isLoading: true,
@@ -101,9 +103,11 @@ export default {
                 if (isNewMerchant.value) {
                     await axiosInstance.post('merchants', state.merchant)
                     router.push('/merchants')
+                    store.dispatch('notifications/addNotification', 'Merchant created');
                 } else {
                     await axiosInstance.put(`merchants/${merchantId}`, state.merchant)
                     router.push(`/merchants/${merchantId}`)
+                    store.dispatch('notifications/addNotification', 'Merchant updated');
                 }
             } catch (error) {
                 console.error(`Failed to ${isNewMerchant.value ? 'create' : 'update'} merchant ${merchantId}:`, error)
