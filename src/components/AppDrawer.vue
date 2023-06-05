@@ -165,7 +165,7 @@ export default {
         const open = ref(['Users']);
 
         const records = [
-            {label: 'Budget', icon: 'mdi-wallet', to: '/budget'},
+            {label: 'Budget', icon: 'mdi-wallet', to: '/budgets'},
             {label: 'Transactions', icon: 'mdi-swap-horizontal', to: '/transactions'},
             {label: 'Import Batches', icon: 'mdi-book-multiple', to: '/import-batches'},
             {label: 'Category', icon: 'mdi-format-list-bulleted', to: '/categories'},
@@ -176,6 +176,7 @@ export default {
         const utilities = [
             {label: 'Import Transactions', icon: 'mdi-import', to: '/import-transactions'},
             {label: 'Duplicate Transactions', icon: 'mdi-content-duplicate', to: '/duplicate-transactions'},
+            {label: 'Budget Overview', icon: 'mdi-chart-bar', to: '/budget-overview'},
         ];
 
         const admin = [

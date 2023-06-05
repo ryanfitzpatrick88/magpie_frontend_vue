@@ -27,6 +27,10 @@ import CategoryEdit from "@/components/Category/CategoryEdit.vue";
 import MerchantList from "@/components/Merchant/MerchantList.vue";
 import MerchantDetail from "@/components/Merchant/MerchantDetail.vue";
 import MerchantEdit from "@/components/Merchant/MerchantEdit.vue";
+import BudgetList from "@/components/Budget/BudgetList.vue";
+import BudgetDetail from "@/components/Budget/BudgetDetail.vue";
+import BudgetEdit from "@/components/Budget/BudgetEdit.vue";
+import BudgetOverview from "@/components/Tools/BudgetOverview/BudgetOverview.vue";
 
 const routes = [
     {
@@ -121,6 +125,26 @@ const routes = [
         ],
     },
     {
+        path: '/budgets',
+        name: 'BudgetList',
+        component: BudgetList,
+        meta: {
+            requiresAuth: true,
+        },
+        children: [
+            {
+                path: ':id',
+                name: 'BudgetDetail',
+                component: BudgetDetail,
+            },
+            {
+                path: 'edit/:id',
+                name: 'BudgetEdit',
+                component: BudgetEdit,
+            },
+        ],
+    },
+    {
         path: '/merchants',
         name: 'MerchantList',
         component: MerchantList,
@@ -187,6 +211,14 @@ const routes = [
         path: '/duplicate-transactions',
         name: 'TransactionDuplicates',
         component: TransactionDuplicates,
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    {
+        path: '/budget-overview',
+        name: 'BudgetOverview',
+        component: BudgetOverview,
         meta: {
             requiresAuth: true,
         }

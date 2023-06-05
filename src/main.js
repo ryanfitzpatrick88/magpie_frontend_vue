@@ -12,6 +12,8 @@ library.add(faHome, faSignInAlt, faWallet, faExchangeAlt, faListAlt, faUser);
 
 // Vuetify
 import 'vuetify/styles'
+import 'v-calendar/style.css';
+import VCalendar from 'v-calendar';
 import {createVuetify} from 'vuetify'
 import {VDataTable} from 'vuetify/labs/VDataTable'
 import {VInfiniteScroll} from 'vuetify/labs/VInfiniteScroll'
@@ -66,4 +68,5 @@ app.component('DatePicker', DatePicker);
 app.use(router);
 app.use(store);
 app.use(vuetify);
+app.use(VCalendar, {});
 app.mount('#app');

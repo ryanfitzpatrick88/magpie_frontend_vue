@@ -45,7 +45,7 @@ export default {
         const transactions = ref([]);
         const selectedTransactions = ref([]);
         const loading = ref(false);
-        let nextPage = 0;
+        let nextPage = 1;
 
         const toggleSelection = (id) => {
             const index = selectedTransactions.value.indexOf(id);
